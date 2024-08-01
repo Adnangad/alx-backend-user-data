@@ -3,6 +3,7 @@
 import re
 from typing import List
 import logging
+import os
 
 
 class RedactingFormatter(logging.Formatter):
@@ -45,3 +46,14 @@ def get_logger() -> logging.Logger:
     stream_handler.setLevel(logging.INFO)
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MYSQLConnection:
+    """ Establishes a connection to the db"""
+    mydb = mysql.connector.connect(
+        host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
+        database=os.getenv('PERSONAL_DATA_DB_NAME'),
+        user=f"{os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')}",
+        password=f"{os.getenv('PERSONAL_DATA_DB_PASSWORD')}"
+        )
+    return mydb
