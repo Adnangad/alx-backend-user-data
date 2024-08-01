@@ -68,3 +68,19 @@ def get_db():
     except Error as e:
         print(f"Error: {e}")
         return None
+
+
+def main() -> None:
+    """main function"""
+    db_con = get_db()
+    db_connect = db_con.cursor()
+    db_connect.execute("SELECT * FROM users;")
+    fieldz = [field[0] for field in db_connect.description]
+    logger = get_logger()
+    for row in db_connect:
+        result = ''
+        for i, j in zip(row, fieldz):
+            result += f'{i}={(j)}; '
+        logger.info(result)
+    db_connect.close()
+    db_con.close()
