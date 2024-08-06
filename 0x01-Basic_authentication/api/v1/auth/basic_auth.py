@@ -30,7 +30,7 @@ class BasicAuth(Auth):
         try:
             decoded = base64.b64decode(base64_authorization_header)
             return decoded.decode('utf-8')
-        except:
+        except Exception:
             return None
 
     def extract_user_credentials(
@@ -59,7 +59,7 @@ class BasicAuth(Auth):
             return None
         try:
             ls = User.search({"email": user_email})
-        except AttributeError:
+        except Exception:
             return None
         if len(ls) == 0:
             return None
