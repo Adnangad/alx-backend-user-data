@@ -31,5 +31,14 @@ def create_session():
         session_id = auth.create_session(user.id)
         cookie_name = os.getenv('SESSION_NAME')
         resp = jsonify(user.to_json())
-        resp.set_cookie(cookie_name, session_id)
+        resp.set_cookie(cookie_name, session_id, max_age=3600)
         return resp
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """Deletes the users session"""
+    from api.v1.app import auth
+    if not auth.destroy_session(request):
+        abort(404)
+    return jsonify({}), 200
