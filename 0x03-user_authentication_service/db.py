@@ -57,8 +57,12 @@ class DB:
     def update_user(self, user_id: int, **kwargs) -> None:
         """Updates a users attribute"""
         user = self.find_user_by(id=user_id)
+        keyz = ['id',
+                'email',
+                'hashed_password',
+                'session_id', 'reset_token']
         for key, val in kwargs.items():
-            if key not in DB.keyz:
+            if key not in keyz:
                 raise ValueError
             setattr(user, key, val)
             self._session.commit()
