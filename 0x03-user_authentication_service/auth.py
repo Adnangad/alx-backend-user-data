@@ -22,7 +22,6 @@ def _generate_uuid() -> str:
 class Auth:
     """Auth class to interact with the authentication database.
     """
-    user_sessions = {}
 
     def __init__(self):
         self._db = DB()
@@ -58,7 +57,7 @@ class Auth:
         try:
             user = self._db.find_user_by(email=email)
             session_id = _generate_uuid()
-            Auth.user_sessions[session_id] = user
+            self._db.update_user(user.id, session_id=session_id)
             return session_id
         except NoResultFound:
             return None
