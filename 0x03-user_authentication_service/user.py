@@ -1,4 +1,4 @@
-#!/user/bin/env python3
+#!/usr/bin/env python3
 """ This module creates a moel for a user"""
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer
