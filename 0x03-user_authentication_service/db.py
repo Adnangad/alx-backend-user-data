@@ -15,8 +15,6 @@ class DB:
     """DB class
     """
 
-    keyz = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
-
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
@@ -42,10 +40,14 @@ class DB:
         self.__session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """Finds a user by input"""
-        for key, val in kwargs.items():
-            if key not in DB.keyz:
+        keyz = ['id',
+                'email',
+                'hashed_password',
+                'session_id', 'reset_token']
+        for key in kwargs.keys():
+            if key not in keyz:
                 raise InvalidRequestError
         rez = self._session.query(User).filter_by(**kwargs).first()
         if rez is None:
